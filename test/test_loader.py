@@ -24,8 +24,7 @@ class TestFilestorageTemplateLoader(object):
 
         assert loader._storage == storage
 
-    def test_get_source_return_tuple(self, storage):
-        environment = MagicMock()
+    def test_get_source_return_tuple(self, environment, storage):
         loader = FilestorageTemplateLoader(storage=storage)
 
         result = loader.get_source(environment, 'index.html')

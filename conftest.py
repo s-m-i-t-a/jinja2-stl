@@ -14,3 +14,8 @@ else:
 @pytest.fixture
 def storage():
     return MagicMock()
+
+
+@pytest.fixture
+def environment():
+    return MagicMock()
