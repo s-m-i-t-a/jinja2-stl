@@ -43,3 +43,12 @@ class TestFilestorageTemplateLoader(object):
         loader.get_source(environment, 'index.html')
 
         assert storage.open.called
+
+    def test_read_opened_file(self, environment, storage):
+        f = MagicMock()
+        f.__enter__.return_value = f
+        storage.open.return_value = f
+        loader = FilestorageTemplateLoader(storage=storage)
+        loader.get_source(environment, 'index.html')
+
+        assert f.read.called
