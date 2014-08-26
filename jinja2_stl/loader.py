@@ -11,4 +11,6 @@ class FilestorageTemplateLoader(BaseLoader):
     def get_source(self, environment, template):
         if not self._storage.exists(template):
             raise TemplateNotFound(template)
+        with self._storage.open(template):
+            pass
         return ()

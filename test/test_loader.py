@@ -37,3 +37,9 @@ class TestFilestorageTemplateLoader(object):
 
         with pytest.raises(TemplateNotFound):
             loader.get_source(environment, 'index.html')
+
+    def test_open_template(self, environment, storage):
+        loader = FilestorageTemplateLoader(storage=storage)
+        loader.get_source(environment, 'index.html')
+
+        assert storage.open.called
