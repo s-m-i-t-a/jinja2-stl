@@ -7,3 +7,6 @@ from jinja2 import BaseLoader
 class FilestorageTemplateLoader(BaseLoader):
     def __init__(self, storage):
         self._storage = storage
+
+    def get_source(self, environment, template):
+        return ()
