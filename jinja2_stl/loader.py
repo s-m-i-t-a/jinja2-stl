@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from jinja2 import BaseLoader
+from jinja2 import BaseLoader, TemplateNotFound
 
 
 class FilestorageTemplateLoader(BaseLoader):
@@ -9,4 +9,6 @@ class FilestorageTemplateLoader(BaseLoader):
         self._storage = storage
 
     def get_source(self, environment, template):
+        if not self._storage.exists(template):
+            raise TemplateNotFound(template)
         return ()

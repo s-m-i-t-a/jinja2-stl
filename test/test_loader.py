@@ -9,7 +9,7 @@ if six.PY3:
 else:
     from mock import patch, call, MagicMock
 
-from jinja2 import BaseLoader
+from jinja2 import BaseLoader, TemplateNotFound
 
 from jinja2_stl.loader import FilestorageTemplateLoader
 
@@ -30,3 +30,10 @@ class TestFilestorageTemplateLoader(object):
         result = loader.get_source(environment, 'index.html')
 
         assert type(result) == tuple
+
+    def test_raise_template_not_found_when_template_not_exists(self, environment, storage):
+        storage.exists.return_value = False
+        loader = FilestorageTemplateLoader(storage=storage)
+
+        with pytest.raises(TemplateNotFound):
+            loader.get_source(environment, 'index.html')
