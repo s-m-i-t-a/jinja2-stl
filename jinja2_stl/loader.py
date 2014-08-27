@@ -13,4 +13,4 @@ class FilestorageTemplateLoader(BaseLoader):
             raise TemplateNotFound(template)
         with self._storage.open(template) as f:
             source = f.read()
-        return source, None, False
+        return source, None, lambda: False

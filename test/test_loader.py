@@ -61,3 +61,9 @@ class TestFilestorageTemplateLoader(object):
         result = loader.get_source(environment, 'index.html')
 
         assert result[0] == f.read.return_value
+
+    def test_last_item_in_returned_tuple_is_function(self, environment, storage):
+        loader = FilestorageTemplateLoader(storage=storage)
+        result = loader.get_source(environment, 'index.html')
+
+        assert callable(result[2])
