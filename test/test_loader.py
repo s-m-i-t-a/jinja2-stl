@@ -67,3 +67,29 @@ class TestFilestorageTemplateLoader(object):
         result = loader.get_source(environment, 'index.html')
 
         assert callable(result[2])
+
+    def test_uptodate_function_return_true_when_template_has_same_size(self, environment, storage):
+        storage.size.return_value = 123456789
+        loader = FilestorageTemplateLoader(storage=storage)
+        result = loader.get_source(environment, 'index.html')
+        uptodate = result[2]
+
+        assert uptodate()
+
+    def test_uptodate_function_return_false_when_template_size_is_changed(self, environment, storage):
+        storage.size.side_effect = [1234567, 90123456]
+        loader = FilestorageTemplateLoader(storage=storage)
+        result = loader.get_source(environment, 'index.html')
+        uptodate = result[2]
+
+        assert not uptodate()
+
+    def test_second_size_call_is_executed_in_uptodate_function(self, environment, storage):
+        loader = FilestorageTemplateLoader(storage=storage)
+        result = loader.get_source(environment, 'index.html')
+        uptodate = result[2]
+
+        assert storage.size.call_count == 1
+
+        uptodate()
+        assert storage.size.call_count == 2
